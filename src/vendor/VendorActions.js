@@ -1,8 +1,8 @@
 import axios from 'axios'
-//import { initialize } from 'redux-form'
+import { initialize } from 'redux-form'
 
 const BASE_URL = 'http://localhost:3003/api'
-//const INITIAL_VALUES = {vendor: {}}
+const INITIAL_VALUES = {vendor: {}}
 
 export function getVendors() {
     return dispatch => {
@@ -29,14 +29,14 @@ export function remove(values) {
 }
 
 export function showUpdate(vendor) {
-    /*return [
-        initialize('vendorForm', vendor)
-    ]*/
+    return [
+        initialize('vendorForm', vendor),
+    ]
 }
 
 export function init() {
     return [
-        getVendors()
-        //initialize('VendorForm', INITIAL_VALUES)
+        getVendors(),
+        initialize('VendorForm', INITIAL_VALUES)
     ]
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { getVendors, remove } from './VendorActions'
+import { getVendors, remove, showUpdate } from './VendorActions'
 
 class VendorList extends Component {
 
@@ -17,7 +17,7 @@ class VendorList extends Component {
                 <td> {vendor.name} </td>
                 <td> {vendor.email} </td>
                 <td>
-                    <button type="button" className="btn btn-warning" onClick={() => this.props.showUpdate(vendor)}>
+                    <button type="button" className="btn btn-warning" data-toggle="modal" data-target="#myModal" onClick={() => this.props.showUpdate(vendor)}>
                         <i className='fa fa-pencil'></i>
                     </button>
 
@@ -56,6 +56,6 @@ class VendorList extends Component {
 
 const mapStateToProps = state => ({ vendorList: state.vendor.vendorList })
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ getVendors, remove }, dispatch)
+    bindActionCreators({ getVendors, remove, showUpdate }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(VendorList)

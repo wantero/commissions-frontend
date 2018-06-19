@@ -1,14 +1,12 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import VendorList from '../vendor/VendorList'
-import VendorForm from '../vendor/VendorForm'
+import Vendor from '../vendor/Vendor'
 
 export default props => (
     <BrowserRouter>
         <Switch>
-            <Route exact path='/' component={VendorList} />
-            <Route path='/VendorForm' component={VendorForm} />
+            <Route exact path='/' component={Vendor} />
         </Switch>
     </BrowserRouter>
 )
