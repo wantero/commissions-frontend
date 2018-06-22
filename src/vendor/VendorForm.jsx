@@ -1,37 +1,64 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-class VendorForm extends Component {
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-  onSubmit(props) {
-    alert('Thanks');
-  }  
+import Input from '../common/form/input'
+import { updateVendor, createVendor } from './VendorActions'
+
+export class VendorForm extends Component {
+
+  onSubmit(values) {
+    console.log(JSON.stringify(values))
+    console.log(this.props.action)
+    const { action, toggle } = this.props
+    toggle()
+    switch (action) {
+      case "UPDATE":
+        this.props.updateVendor(values)
+        break
+      case "CREATE":
+        this.props.createVendor(values)
+        break
+      default:
+        break
+    }
+
+    //this.state.loginMode ? login(values) : signup(values)
+  }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { toggle, modal, title } = this.props
+    //const vendor = this.props.vendor || ""
+    const { handleSubmit } = this.props
+
     return (
-      <form onSubmit={handleSubmit(props => this.onSubmit(props))}>
-        <div>
-          <label htmlFor="firstName">First Name</label>
-          <Field name="firstName" component="input" type="text"/>
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name</label>
-          <Field name="lastName" component="input" type="text"/>
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <Field name="email" component="input" type="email"/>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    );
+      <div>
+        <Modal isOpen={modal} toggle={toggle} className={this.props.className}>
+          <form onSubmit={handleSubmit(v => this.onSubmit(v))}>
+            <ModalHeader toggle={toggle}>{title}</ModalHeader>
+            <ModalBody>
+              <Field component={Input} type="input" name="name" placeholder="Nome" icon='user' value />
+              <Field component={Input} type="email" name="email" placeholder="E-mail" icon='envelope' />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" type="submit">Do Something</Button>{' '}
+              <Button color="secondary" onClick={toggle}>Cancel</Button>
+            </ModalFooter>
+          </form>
+        </Modal>
+      </div>
+    )
   }
 }
 
-// Decorate the form component
-VendorForm = reduxForm({
-  form: 'vendor' // a unique name for this form
-})(VendorForm);
+VendorForm = reduxForm({ form: 'vendorForm' })(VendorForm)
 
-export default VendorForm;
+/*const mapStateToProps = (state) => ({
+  initialValues: state.vendor.vendor
+})*/
+const mapDispatchToProps = dispatch => bindActionCreators({ updateVendor, createVendor }, dispatch)
+
+export default connect(null, mapDispatchToProps)(VendorForm)
